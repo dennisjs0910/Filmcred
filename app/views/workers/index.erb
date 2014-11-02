@@ -1,0 +1,137 @@
+
+
+ <!-- Header -->
+ <%= erb :nav %>
+
+  <!-- Body-->
+  <div class="homepage-container" id="homepage">
+      <div class="overlay"></div>
+          <div class="homepage-content">
+          </div>
+    </div>
+
+    <div id="wrapper">
+        <div class="subscribe" id="subscribe">
+         <div>
+          <form method="post" action="/search">
+            <div>
+              <input type="text" name="search" value="search">
+              <button type="submit"></button>
+            </div>
+          </form>
+
+          <% if @search_errors %>
+            <div>
+              <p>Please search by the correct name</p>
+            </div>
+          <% end %>
+        </div>
+
+        <h1 class="homepage-title"><%= @worker.name %></h1>
+
+          <div><img src ="<%= @worker.icon %>"><div>
+
+            <div>
+              <p class="workers-content"><strong>Email: <%= @worker.email %></strong></p>
+              <p class="workers-content"><strong>City: <%= @worker.city %></strong></p>
+            </div>
+
+        <% if current_user.type == "Worker" && current_user.id ==@worker.id %>
+          <h1 class="homepage-title">MANAGE YOUR DOCUMENTS</h1>
+            <table class="company-profile">
+              <thead>
+                <tr>
+                  <th width="200">Action</th>
+                  <th width="600">Document</th>
+                  <th width="200">Action</th>
+                  
+                  
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td><form action="/upload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="filename"  >
+                    <button class="button"type="submit">Upload Docs</button>
+                  </form></td>
+                  <td id:"table-text">Documents</td>
+          
+                </tr>
+              </tbody>
+              
+              <a href="/documents">List of Documents</a>
+            </table>
+            <% end %>
+          </div>
+      </div>
+
+
+
+      <!-- Submitting Documents -->
+  
+         
+
+<% if current_user.type == "Company" && !current_user.requests.exists? %> 
+  <form action="/users/<%= @worker.id %>/request" method="post">
+    <input type="hidden" name="something" value="<%= @worker.id %>">
+    <button class="button" type="submit">Request</button>
+  </form>
+<% elsif current_user.type == "Worker" && !current_user.requests.exists?  %>
+  <%= nil %>
+<% elsif current_user.requests.last.pending == true %>
+  <% if current_user.type == "Worker" %>
+    <form action="/users/<%= @worker.id %>/approve" method="post">
+      <input type="hidden" name="approve" value="<%= @worker.id %>">
+      <button class="button">Approve</button>
+    </form>
+  <% elsif current_user.type == "Company" %>
+    <p class="pending">Pending</p>
+  <% end %>
+<% elsif current_user.requests.last.pending == false %>
+    <a href="/company_documents">List of Documents</a>
+<% end %>
+
+
+
+                    
+       <!-- <div class="divider"></div> -->
+                    
+        <div class="footer">
+            <div class="row">
+                <div class="twelve columns">
+                  <a href="#homepage" class="to-top"></a>
+                </div>
+                <div class="twelve columns copyright">
+                  <a href="/users">Copyright 2014 FilmCred</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Request -->
+
+
+
+
+
+  
+ <!-- Logout -->
+
+
+
+
+
+

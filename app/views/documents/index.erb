@@ -1,0 +1,7 @@
+<ul>
+  <% @documents.each do |doc| %>
+    <li> 
+      <a href="<%= doc.filename %>"><%= doc.filename %></a>
+    </li>
+  <% end %>
+</ul>
